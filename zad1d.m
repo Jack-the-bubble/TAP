@@ -5,8 +5,8 @@ global g m K mol kmol cal min ro cp k E_R h a b ro cp k E_R h a b V Fin CAin Fc 
 globals
 st = 0.01;
 
-CAin_vect = [1.7, 1.8, 1.9, 1.95, 2.0];
-Fc_vect = [14, 15, 15.5, 16, 17];
+CAin_vect = [1.6,1.7, 1.8, 1.9, 1.95, 2.0,2.2];
+Fc_vect = [13,14, 15, 15.5, 16, 17,19];
 
 Ca = 1.7845;
 T = 331.0083;
