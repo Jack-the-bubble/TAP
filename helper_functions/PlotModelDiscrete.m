@@ -4,7 +4,9 @@ function PlotModelDiscrete(InVar, OutVar, Ts, vect, dCaIn, dTIn, step, titleText
                 0.278, 0.819, 0.137;
                 0.905, 0.772, 0.094;
                 0.109, 0.152, 0.949;
-                0.258, 0.960, 0.847; ];
+                0.258, 0.960, 0.847;
+                0.803, 0.858, 0.741;
+                0.470, 0.258, 0.843;];
 
     for iter = 1:1:length(vect)
 
