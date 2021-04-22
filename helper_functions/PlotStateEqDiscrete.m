@@ -4,7 +4,9 @@ function PlotStateEqDiscrete(InVar, OutVar, Cain_vect, Fc_vect, Az, Bz, Cz, Dz, 
                 0.278, 0.819, 0.137;
                 0.905, 0.772, 0.094;
                 0.109, 0.152, 0.949;
-                0.258, 0.960, 0.847; ];
+                0.258, 0.960, 0.847;
+                0.803, 0.858, 0.741;
+                0.470, 0.258, 0.843; ];
             
     vect = [Cain_vect;Fc_vect];
 
@@ -28,7 +30,7 @@ function PlotStateEqDiscrete(InVar, OutVar, Cain_vect, Fc_vect, Az, Bz, Cz, Dz, 
         y = [Ca;T].*ones(2, n);
         for k = 2:1:n
             x(:, k) = Az*x(:, k-1)+Bz*[Cain_vect(iter);Fc_vect(iter)];
-            y(:, k) = Cz*x(:, k) + Dz*[Cain_vect(iter);Fc_vect(iter)];
+            y(:, k) = Cz*x(:, k-1) + Dz*[Cain_vect(iter);Fc_vect(iter)];
         end
             
         plot((1:n), y(y_plot, :), plotStyle, 'Color', colour_vect(iter, :), 'LineWidth', 1.5);
