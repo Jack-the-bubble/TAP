@@ -39,9 +39,45 @@ hold off
 
 CAin = 2; Fc = 15;
 
+
 figure(4)
 PlotModel('Fc', 'T', Fc_vect, @dCaLin, @dTLin, st, 'Lin zaleznosc T od czasu - skok Fc', '-');
 PlotModel('Fc', 'T', Fc_vect, @dCa, @dT, st, 'NLin zaleznosc T od czasu - skok Fc', '-.');
 plotLegend('Fc', Fc_vect)
 hold off
 CAin = 2; Fc = 15;
+
+% compare ss with continous model
+figure(5)
+PlotModel('CAin', 'Ca', CAin_vect, @dCaLin, @dTLin, st, 'Lin zaleznosc Ca od czasu - skok CAin', '-');
+PlotModelCont('CAin', 'Ca', CAin_vect, @dCa, @dT, st, 'NLin zaleznosc Ca od czasu - skok CAin', '-.');
+
+plotLegend('CAin', CAin_vect)
+hold off
+
+CAin = 2; Fc = 15;
+
+figure(6)
+PlotModel('Fc', 'Ca', Fc_vect, @dCaLin, @dTLin, st, 'Lin zaleznosc Ca od czasu - skok Fc', '-');
+PlotModel('Fc', 'Ca', Fc_vect, @dCa, @dT, st, 'NLin zaleznosc Ca od czasu - skok Fc', '-.');
+plotLegend('Fc', Fc_vect)
+hold off
+
+CAin = 2; Fc = 15;
+
+figure(7)
+PlotModel('CAin', 'T', CAin_vect, @dCaLin, @dTLin, st, 'Lin zaleznosc T od czasu - skok CAin', '-');
+PlotModel('CAin', 'T', CAin_vect, @dCa, @dT, st, 'NLin zaleznosc T od czasu - skok CAin', '-.');
+plotLegend('CAin', CAin_vect)
+hold off
+
+CAin = 2; Fc = 15;
+
+figure(8)
+PlotModel('Fc', 'T', Fc_vect, @dCaLin, @dTLin, st, 'Lin zaleznosc T od czasu - skok Fc', '-');
+PlotModel('Fc', 'T', Fc_vect, @dCa, @dT, st, 'NLin zaleznosc T od czasu - skok Fc', '-.');
+plotLegend('Fc', Fc_vect)
+hold off
+CAin = 2; Fc = 15;
+
+
