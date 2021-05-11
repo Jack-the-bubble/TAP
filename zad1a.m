@@ -71,6 +71,12 @@ output
 disp('Model w postaci zmiennych stanu')
 SS
 
+opt = stepDataOptions('StepAmplitude', 0)
+
+
+step(output)
+step_output = step(output);
+
 function res = system(CaT)
     globals
     Ca_sym = CaT(1);

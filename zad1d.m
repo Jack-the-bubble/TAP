@@ -13,7 +13,7 @@ T = 331.0083;
 
 CAin = 2; Fc = 15;
 
-Ts = 10;
+Ts = 5;
 figure(1)
 PlotModel('CAin', 'Ca', CAin_vect, @dCaLin, @dTLin, st, 'M Lin zaleznosc Ca od czasu - skok CAin', '-');
 PlotModelDiscrete('CAin', 'Ca', Ts, CAin_vect, @dCaLin, @dTLin, st, 'M Dis zaleznosc Ca od czasu - skok CAin', '-');
@@ -38,26 +38,3 @@ PlotModel('Fc', 'T', Fc_vect, @dCaLin, @dTLin, st, 'M Lin zaleznosc T od czasu -
 PlotModelDiscrete('Fc', 'T', Ts, Fc_vect, @dCaLin, @dTLin, st, 'M Dis zaleznosc T od czasu - skok Fc', '-');
 plotLegend('Fc', Fc_vect)
 hold off
-
-% figure(5)
-% PlotModelDiscrete('Fc', 'T', Ts, Fc_vect, @dCaLin, @dTLin, st, 'M Dis zaleznosc T od czasu - skok Fc', '-');
-% PlotStateEqDiscrete('Fc', 'T', CAin_vect, Fc_vect, 
-% plotLegend('Fc', Fc_vect)
-% hold off
-
-%% modele przestrzeni stanu
-
-Ca = 1.7845;
-T = 331.0083;
-
-[cont_ss, discr_ss, discr_tf] = get_discrete(1);
-
-u = [CAin, Fc].*ones(1001, 2);
-n_vect = 0:1000;
-lsim(discr_tf, u, n_vect, [CAin; Fc], 'zoh')
-
-% [A, B, C, D] = ssdata(discr_ss);
-
-% figure(5)
-% PlotStateEqDiscrete('Fc', 'T', CAin_vect, Fc_vect, A, B, C, D, 'M Dis zaleznosc T od czasu - skok Fc', '-');
-% hold off

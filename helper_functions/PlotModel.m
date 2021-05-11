@@ -22,6 +22,7 @@ function PlotModel(InVar, OutVar, vect, dCaIn, dTIn, step, titleText, plotStyle)
             y_plot = 2;
         end
 
+        
         [y, t] = rk4(dCaIn, dTIn, Ca, T, step);
         plot(t, y(y_plot, :), plotStyle, 'Color', colour_vect(iter, :), 'LineWidth', 1.5);
         title(titleText)
