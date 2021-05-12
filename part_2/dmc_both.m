@@ -20,6 +20,7 @@ T0 = 331.0083;
 Cain0 = 2;
 Fc0 = 15;
 
+
 %% dyskretny model przestrzeni stanu
 Tp=0.01;
 ss_c = ss(A, B, C, D);
@@ -246,23 +247,22 @@ for i=1:1:Nu
 end
 
 Aqp = [-J; J; -M; M];
-
-
-
 Tsim=30;
 t_sim=0:Tp:(Tsim-Tp);
-
+ 
+%%% pochodna
 dUmax=ones(nu*Nu,1)*200;
-dUmax(1,1)=0.3;
+dUmax(1,1)=0.35;
 
 dUmin=ones(nu*Nu,1)*-200;
-dUmin(2,1)=-3.0;
+dUmin(2,1)=-3.5;
+
 
 Umin=ones(nu*Nu,1)*-100;
-Umin(2,1)=-3;
+Umin(2,1)=-3.5;
 
 Umax=ones(nu*Nu,1)*100;
-Umax(1,1)=0.3;
+Umax(1,1)=0.35;
 
 
 Xout=zeros(ny, length(t_sim));
@@ -300,10 +300,6 @@ for i=1:1:(length(t_sim)-1)
      Uutil(:,i)=dU(:,1);    
      end
      
-     %Disturbance
-     %U(3,i)=0;
-     %U(4,i)=-16;
-     
      for f=1:1:(Dyn-2)
          for j=1:1:nu
              Uhist(nu*(Dyn-2)-nu*(f-1)+j,1)=Uhist(nu*(Dyn-2)-nu*(f)+j,1);
@@ -326,7 +322,7 @@ for i=1:1:(length(t_sim)-1)
                 Ualg=Ualg+dU(nu*(j-1)+1:nu*(j),1);
             end
             
-        Xn( (j)*ny+1:(j+1)*ny,1)=Ad*Xn( (j-1)*ny+1:(j)*ny,1)+Bd*Ualg;
+        Xn((j)*ny+1:(j+1)*ny,1)=Ad*Xn( (j-1)*ny+1:(j)*ny,1)+Bd*Ualg;
     end        
 
     Xout(:,i)=Xn(1*ny+1:2*ny,1);
@@ -334,20 +330,62 @@ for i=1:1:(length(t_sim)-1)
 end
 
 figure(4)
-plot(t_sim,Yzad(1,:));
+%plot(t_sim,Yzad(1,:));
 hold on
-stairs(t_sim,Xout(1,:));
+stairs(t_sim,Xout(1,:)+Ca0);
 title({'DMC numerical Ca control'})
+xlabel('t') 
+ylabel('Ca=y1')
+legend('Ca','Ca zad')
+print('DMC_num_Ca','-djpeg','-r 300')
+
+figure(5)
+%plot(t_sim,Yzad(2,:));
+hold on
+stairs(t_sim,Xout(2,:)+T0);
+title({'DMC numerical T control'})
+xlabel('t')
+ylabel('T=y2')
+legend('T','T zad')
+print('DMC_num_T','-djpeg','-r 300')
+
+U(1, :) = U(1, :)+offset*Cain0;
+U(2, :) = U(2, :)+offset*Fc0;
+
+figure(6)
+subplot(2, 1, 1)
+plot(t_sim,U(1,:), 'Color', 'green');
+
+title({'DMC numeryczny przebieg sterowania'});
+xlabel('czas symulacji') ;
+ylabel('Cain=u1');
+legend('Cain');
+
+subplot(2, 1, 2)
+plot(t_sim,U(2,:), 'Color', 'magenta');
+
+xlabel('czas symulacji') ;
+ylabel('Fc=u2');
+legend('Fc');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%Comparing plots%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+figure(4)
+%plot(t_sim,Yzad(1,:));
+hold on
+stairs(t_sim,Xout(1,:)+Ca0);
+title({'DMC numeryczny przebieg Ca'})
 xlabel('t') % x-axis label
 ylabel('Ca=y1') % y-axis label
 legend('Ca','Ca zad')
 print('DMC_num_Ca','-djpeg','-r 300')
 
 figure(5)
-plot(t_sim,Yzad(2,:));
+%plot(t_sim,Yzad(2,:));
 hold on
-stairs(t_sim,Xout(2,:));
-title({'DMC numerical T control'})
+stairs(t_sim,Xout(2,:)+T0);
+title({'DMC numeryczny przebieg T'})
 xlabel('t') % x-axis label
 ylabel('T=y2') % y-axis label
 legend('T','T zad')
@@ -372,16 +410,3 @@ plot(t_sim,U(2,:), 'Color', 'magenta');
 xlabel('czas symulacji') ;
 ylabel('Fc=u2');
 legend('Fc');
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%Comparing plots%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% figure(6)
-% subplot(2,2,1)
-% stairs(t_sim,Xout(1,:));
-% hold on
-% plot(t_sim,Xzad_out(1,:));
-% title({'DMC numerical Ca control'})
-% xlabel('t') % x-axis label
-% ylabel('Ca=y1') % y-axis label
-% legend('Ca','Ca zad')
