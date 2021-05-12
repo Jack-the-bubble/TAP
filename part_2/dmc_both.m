@@ -28,8 +28,8 @@ ss_d = c2d(ss_c, Tp, 'zoh');
 [Ad, Bd, Cd, Dd] = ssdata(ss_d);
 
 %% wyznaczenie transmitancji
-Tfinal=10;
-t=0:Tp:(Tfinal-Tp);
+Tstep=10;
+t=0:Tp:(Tstep-Tp);
 
 
 sys_c=tf(ss(A,B,C,D));
@@ -40,7 +40,7 @@ ny=2;
 nu=2;
 N=200;
 Nu=2;
-Dyn=length(t);
+Dyn=length(t)/2;
 
 maxU1 = 0.5;
 minU1 = -1.9;
