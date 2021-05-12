@@ -130,83 +130,83 @@ end
 
  
 %% DMC w wersji analitycznej
-% 
-% for i=1:1:(length(t_sim)-1)
-%     
-%     e=Yzad(:,i)-Y(:,i);
-%     dU=Ke*e-Ku*Mp*U_past;
-%     
-%     for f=1:1:(Dyn-2)
-%         for j=1:1:nu
-%             U_past(nu*(Dyn-2)-nu*(f-1)+j)=U_past(nu*(Dyn-2)-nu*(f)+j);
-%         end
-%     end
-%     
-%     Uprev=U(:, i);
-%     U(:, i+1)=U(:, i)+dU;
-%     
-%     % ograniczenie przez rzutowanie
-%     if U(1,i+1)>maxU1
-%         U(1,i+1)=maxU1;
-%     end
-%     
-%     if U(1,i+1)<minU1
-%         U(1,i+1)=minU1;
-%     end
-%     
-%      if U(2,i+1)<minU2
-%         U(2,i+1)=minU2;
-%     end
-%         
-%     U_past(1:nu)=U(:, i+1)-Uprev;    
-%     Y(:,i+1)=Ad*Y(:,i)+Bd*(U(:, i+1));
-% end
-% 
-% %% wykresy
-% 
-% figure(1)
-% Yzad(1,:) = Yzad(1, :)+offset*Ca0;
-% plot(t_sim,Yzad(1,:), 'Color', 'blue');
-% hold on
-% 
-% Y(1,:) = Y(1, :)+offset*Ca0;
-% stairs(t_sim,Y(1,:), 'Color', 'red');
-% 
-% title({'DMC analityczny wyjscie Ca'});
-% xlabel('czas symulacji') ;
-% ylabel('Ca=y1');
-% legend('y\_zad','y');
-% 
-% 
-% figure(2)
-% Yzad(2,:) = Yzad(2, :)+offset*T0;
-% plot(t_sim,Yzad(2,:), 'Color', 'blue');
-% 
-% hold on
-% Y(2,:) = Y(2, :)+offset*T0;
-% stairs(t_sim,Y(2,:), 'Color', 'red');
-% title({'DMC analityczny wyjscie T'});
-% xlabel('czas symulacji');
-% ylabel('T=y2');
-% legend('T\_zad','T');
-% 
-% figure(3)
-% subplot(2, 1, 1)
-% U(1, :) = U(1, :)+offset*Cain0;
-% plot(t_sim,U(1,:), 'Color', 'green');
-% 
-% title({'DMC analityczny przebieg sterowania'});
-% xlabel('czas symulacji') ;
-% ylabel('Cain=u1');
-% legend('Cain');
-% 
-% subplot(2, 1, 2)
-% U(2, :) = U(2, :)+offset*Fc0;
-% plot(t_sim,U(2,:), 'Color', 'magenta');
-% 
-% xlabel('czas symulacji') ;
-% ylabel('Fc=u2');
-% legend('Fc');
+
+for i=1:1:(length(t_sim)-1)
+    
+    e=Yzad(:,i)-Y(:,i);
+    dU=Ke*e-Ku*Mp*U_past;
+    
+    for f=1:1:(Dyn-2)
+        for j=1:1:nu
+            U_past(nu*(Dyn-2)-nu*(f-1)+j)=U_past(nu*(Dyn-2)-nu*(f)+j);
+        end
+    end
+    
+    Uprev=U(:, i);
+    U(:, i+1)=U(:, i)+dU;
+    
+    % ograniczenie przez rzutowanie
+    if U(1,i+1)>maxU1
+        U(1,i+1)=maxU1;
+    end
+    
+    if U(1,i+1)<minU1
+        U(1,i+1)=minU1;
+    end
+    
+     if U(2,i+1)<minU2
+        U(2,i+1)=minU2;
+    end
+        
+    U_past(1:nu)=U(:, i+1)-Uprev;    
+    Y(:,i+1)=Ad*Y(:,i)+Bd*(U(:, i+1));
+end
+
+%% wykresy
+
+figure(1)
+Yzad(1,:) = Yzad(1, :)+offset*Ca0;
+plot(t_sim,Yzad(1,:), 'Color', 'blue');
+hold on
+
+Y(1,:) = Y(1, :)+offset*Ca0;
+stairs(t_sim,Y(1,:), 'Color', 'red');
+
+title({'DMC analityczny wyjscie Ca'});
+xlabel('czas symulacji') ;
+ylabel('Ca=y1');
+legend('y\_zad','y');
+
+
+figure(2)
+Yzad(2,:) = Yzad(2, :)+offset*T0;
+plot(t_sim,Yzad(2,:), 'Color', 'blue');
+
+hold on
+Y(2,:) = Y(2, :)+offset*T0;
+stairs(t_sim,Y(2,:), 'Color', 'red');
+title({'DMC analityczny wyjscie T'});
+xlabel('czas symulacji');
+ylabel('T=y2');
+legend('T\_zad','T');
+
+figure(3)
+subplot(2, 1, 1)
+U(1, :) = U(1, :)+offset*Cain0;
+plot(t_sim,U(1,:), 'Color', 'green');
+
+title({'DMC analityczny przebieg sterowania'});
+xlabel('czas symulacji') ;
+ylabel('Cain=u1');
+legend('Cain');
+
+subplot(2, 1, 2)
+U(2, :) = U(2, :)+offset*Fc0;
+plot(t_sim,U(2,:), 'Color', 'magenta');
+
+xlabel('czas symulacji') ;
+ylabel('Fc=u2');
+legend('Fc');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%DMC_numerical simualation%%%%%%%%%%%%%%%
@@ -249,49 +249,20 @@ Aqp = [-J; J; -M; M];
 
 
 
-Tsim=8;
+Tsim=30;
 t_sim=0:Tp:(Tsim-Tp);
 
 dUmax=ones(nu*Nu,1)*200;
 dUmax(1,1)=0.3;
 
-% dUmax(3,1)=0;
-% dUmax(7,1)=0;
-
-% dUmax(4,1)=0;
-% dUmax(8,1)=0;
-
-
 dUmin=ones(nu*Nu,1)*-200;
 dUmin(2,1)=-3.0;
-
-% dUmin(3,1)=0;
-% dUmin(7,1)=0;
-
-% dUmin(4,1)=0;
-% dUmin(8,1)=0;
-
 
 Umin=ones(nu*Nu,1)*-100;
 Umin(2,1)=-3;
 
-% Umin(3,1)=0;
-% Umin(7,1)=0;
-
-% Umin(4,1)=0;
-% Umin(8,1)=0;
-
-
-
 Umax=ones(nu*Nu,1)*100;
 Umax(1,1)=0.3;
-
-% Umax(3,1)=0;
-% Umax(7,1)=0;
-
-% Umax(4,1)=0;
-% Umax(8,1)=0;
-
 
 
 Xout=zeros(ny, length(t_sim));
@@ -362,24 +333,55 @@ for i=1:1:(length(t_sim)-1)
     Xzad_out(:,i)=Xzad_n(1:ny,1);
 end
 
-figure(1)
-stairs(t_sim,Xout(1,:));
+figure(4)
+plot(t_sim,Yzad(1,:));
 hold on
-plot(t_sim,Xzad_out(1,:));
+stairs(t_sim,Xout(1,:));
 title({'DMC numerical Ca control'})
 xlabel('t') % x-axis label
 ylabel('Ca=y1') % y-axis label
 legend('Ca','Ca zad')
 print('DMC_num_Ca','-djpeg','-r 300')
 
-figure(2)
-stairs(t_sim,Xout(2,:));
+figure(5)
+plot(t_sim,Yzad(2,:));
 hold on
-plot(t_sim,Xzad_out(2,:));
+stairs(t_sim,Xout(2,:));
 title({'DMC numerical T control'})
 xlabel('t') % x-axis label
 ylabel('T=y2') % y-axis label
 legend('T','T zad')
 print('DMC_num_T','-djpeg','-r 300')
 
+
+U(1, :) = U(1, :)+offset*Cain0;
+U(2, :) = U(2, :)+offset*Fc0;
+
+figure(6)
+subplot(2, 1, 1)
+plot(t_sim,U(1,:), 'Color', 'green');
+
+title({'DMC numeryczny przebieg sterowania'});
+xlabel('czas symulacji') ;
+ylabel('Cain=u1');
+legend('Cain');
+
+subplot(2, 1, 2)
+plot(t_sim,U(2,:), 'Color', 'magenta');
+
+xlabel('czas symulacji') ;
+ylabel('Fc=u2');
+legend('Fc');
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%Comparing plots%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% figure(6)
+% subplot(2,2,1)
+% stairs(t_sim,Xout(1,:));
+% hold on
+% plot(t_sim,Xzad_out(1,:));
+% title({'DMC numerical Ca control'})
+% xlabel('t') % x-axis label
+% ylabel('Ca=y1') % y-axis label
+% legend('Ca','Ca zad')
